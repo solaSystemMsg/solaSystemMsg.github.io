@@ -80,18 +80,16 @@
 
         var mySpriteSheetImage = PIXI.BaseTexture.from("sprites/clover.png");
 
-        let foods = [
-            new PIXI.Texture(mySpriteSheetImage, new PIXI.Rectangle(0, 0, 72, 72))
-        ];
+        let foods = new PIXI.Texture(mySpriteSheetImage, new PIXI.Rectangle(0, 0, 112, 112))
 
         // Draw clicks.
-        function drawClick(clickX, clickY) {
+        function drawClick(clickX, clickY, user) {
             const screenX = parseInt(clickX * main.clientWidth);
             const screenY = parseInt(clickY * main.clientHeight);
 
             // Draw food at coordinates
             const foodIndex = Math.floor(Math.random() * foods.length);
-            const food = PIXI.Sprite.from(foods[foodIndex]);
+            const food = PIXI.Sprite.from(foods);
 
             food.anchor.set(0.5);
             food.x = screenX;
