@@ -80,7 +80,9 @@
 
         var mySpriteSheetImage = PIXI.BaseTexture.from("sprites/clover.png");
 
-        let foods = new PIXI.Texture(mySpriteSheetImage, new PIXI.Rectangle(0, 0, 112, 112))
+        let foods = [
+            new PIXI.Texture(mySpriteSheetImage, new PIXI.Rectangle(0, 0, 112, 112))
+        ];
 
         // Draw clicks.
         function drawClick(clickX, clickY, user) {
@@ -89,7 +91,7 @@
 
             // Draw food at coordinates
             const foodIndex = Math.floor(Math.random() * foods.length);
-            const food = PIXI.Sprite.from(foods);
+            const food = PIXI.Sprite.from(foods[foodIndex]);
 
             food.anchor.set(0.5);
             food.x = screenX;
@@ -114,7 +116,9 @@
 
         // Render loop.
         app.ticker.add(function (delta) {
-            for (let i = app.stage.children.length - 1; i >= 0; i--) {
+            for (let i = sprites.children.length - 1; i >= 0; i--) {
+                let food = sprites.getChildAt(i);
+                
                 let userName = app.stage.getChildAt(i);
 
                 let age = (Date.now() - userName.birth) / (userName.death - userName.birth);
@@ -128,7 +132,7 @@
         });
         
         // Animation loop.
-        ```
+        
         app.ticker.add(function (delta) {
             // Update baby.
             // updateBaby(delta);
@@ -139,10 +143,10 @@
 
             };
         });
-        ```
+        
 
         // Update baby.
-        ```
+        
         function updateBaby(delta) {
             if (points.length == 0) return;
 
@@ -218,7 +222,7 @@
                 targetPoint = points[i];
             }
         }
-        ```
+        
 
         // local click handling.
         document.addEventListener("click", function (event) {
