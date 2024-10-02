@@ -28,14 +28,16 @@
                 1152516532;
 
             const heat = new Heat(channel);
-            heat.addEventListener('click', (e) => {
-                drawClick(e.detail.x, e.detail.y);
+            heat.addEventListener('click', async (e) => {
+                let user = await heat.getUserById(e.detail.id);
+                drawClick(e.detail.x, e.detail.y, user.display_name);
             });
         }
 
         // Main container.
         let main = document.getElementById('main');
 
+        
         // Pixi setup.
         const app = new PIXI.Application({
             resizeTo: main,
@@ -45,6 +47,16 @@
         });
         main.appendChild(app.view);
 
+        
+        // Font style.
+        var style = new PIXI.TextStyle({
+            fontFamily: 'Arial',
+            fontSize: 128,
+            fontWeight: 'bold',
+            fill: ['#0ab89d', '#07856a'],
+        });
+
+        
         // Sprite container.
         const sprites = new PIXI.ParticleContainer(10000, {
             scale: true,
@@ -54,6 +66,7 @@
         });
         app.stage.addChild(sprites);
 
+        
         // Create baby.
         let width = window.innerWidth;
         let height = window.innerHeight;
@@ -71,10 +84,21 @@
         ];
 
         // Draw clicks.
-        function drawClick(clickX, clickY) {
+        function drawClick(clickX, clickY, user) {
             const screenX = parseInt(clickX * main.clientWidth);
             const screenY = parseInt(clickY * main.clientHeight);
 
+            //user
+            var richText = new PIXI.Text(user, style);
+            richText.x = screenX;
+            richText.y = screenY;
+
+            richText.birth = Date.now();
+            richText.death = richText.birth + 2500;
+
+            app.stage.addChild(richText);
+            
+            // food
             const foodIndex = Math.floor(Math.random() * foods.length);
             const food = PIXI.Sprite.from(foods[foodIndex]);
 
@@ -94,6 +118,15 @@
             // Update food.
             for (let i = sprites.children.length - 1; i >= 0; i--) {
                 let food = sprites.getChildAt(i);
+                let userName = app.stage.getChildAt(i);
+                
+                let age = (Date.now() - userName.birth) / (userName.death - userName.birth);
+
+                if (age >= 1) {
+                    userName.destroy();
+                } else {
+                    userName.scale.set((1 - age));
+                }
             };
         });
         
@@ -103,7 +136,7 @@
             const normalizedX = (event.clientX * 1.0 / window.innerWidth).toPrecision(3);
             const normalizedY = (event.clientY * 1.0 / window.innerHeight).toPrecision(3);
 
-            drawClick(normalizedX, normalizedY);
+            drawClick(normalizedX, normalizedY, "LocalTest");
 
         });
 
