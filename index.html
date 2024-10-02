@@ -29,7 +29,8 @@
 
             const heat = new Heat(channel);
             heat.addEventListener('click', (e) => {
-                drawClick(e.detail.x, e.detail.y);
+                //let user = await heat.getUserById(e.detail.id);
+                drawClick(e.detail.x, e.detail.y/*user.display_name*/);
             });
         }
 
@@ -45,6 +46,14 @@
         });
         main.appendChild(app.view);
 
+        // Font style.
+        var style = new PIXI.TextStyle({
+            fontFamily: 'Arial',
+            fontSize: 128,
+            fontWeight: 'bold',
+            fill: ['#0ab89d', '#07856a'],
+        });
+        
         // Sprite container.
         const sprites = new PIXI.ParticleContainer(10000, {
             scale: true,
@@ -54,7 +63,7 @@
         });
         app.stage.addChild(sprites);
 
-        // Create baby.
+        // Create window for logging clicks
         let width = window.innerWidth;
         let height = window.innerHeight;
         let points = [];
@@ -62,6 +71,7 @@
             let offset = i * (512 / 512)
             points.push(new PIXI.Point((width / 2) + offset, height / 2));
         };
+        // create baby sprite
         //const rope = new PIXI.SimpleRope(PIXI.Texture.from("sprites/baby.png"), points);
         //app.stage.addChild(rope);
 
@@ -77,10 +87,17 @@
         function drawClick(clickX, clickY) {
             const screenX = parseInt(clickX * main.clientWidth);
             const screenY = parseInt(clickY * main.clientHeight);
+            ```
+            // user name 
+            var richText = new PIXI.Text(user, style);
+            richText.x = screenX;
+            richText.y = screenY;
+            richText.birth = Date.now();
+            richText.death = richText.birth + 2500;```
 
+            // sprite image
             const foodIndex = Math.floor(Math.random() * foods.length);
             const food = PIXI.Sprite.from(foods[foodIndex]);
-
             food.anchor.set(0.5);
             food.x = screenX;
             food.y = screenY;
@@ -90,6 +107,7 @@
             food.death = food.birth + 1000;
 
             sprites.addChild(food);
+            //app.stage.addChild(richText);
         }
 
         // Animation loop.
@@ -99,97 +117,27 @@
 
             // Update food.
             for (let i = sprites.children.length - 1; i >= 0; i--) {
+                //let userName = app.stage.getChildAt(i);
                 let food = sprites.getChildAt(i);
 
+                //let age = (Date.now() - userName.birth) / (userName.death - userName.birth);
+
+                ```if (age >= 1) 
+                {
+                    userName.destroy();
+                } else 
+                {
+                    userName.scale.set((1 - age));
+                }```
             };
         });
-
-        // Update baby.
-        ```
-        function updateBaby(delta) 
-        {
-            if (points.length == 0) return;
-
-            // Find and eat food.
-            let targetSprite;
-            let minLength = Infinity;
-
-            for (let i = sprites.children.length - 1; i >= 0; i--) {
-                let child = sprites.getChildAt(i);
-
-                let offset = new PIXI.Point(
-                    (points[0].x - child.x),
-                    (points[0].y - child.y)
-                );
-
-                let length = Math.sqrt(offset.x * offset.x + offset.y * offset.y);
-
-                if (length < 10) {
-                    child.destroy();
-                } else if (length < minLength) {
-                    minLength = length;
-                    targetSprite = child;
-                }
-            }
-
-            if (!targetSprite) return;
-
-            // Find offset to food and animate.
-            let targetPoint = new PIXI.Point(targetSprite.x, targetSprite.y);
-
-            let offset = new PIXI.Point(
-                (targetPoint.x - points[0].x),
-                (targetPoint.y - points[0].y)
-            );
-
-            let length = Math.sqrt(offset.x * offset.x + offset.y * offset.y);
-
-            // Normalize offset.
-            offset.x /= length;
-            offset.y /= length;
-
-            if (length > 100) length = 100;
-
-            // Scale offset.
-            offset.x *= .05 * delta * length;
-            offset.y *= .05 * delta * length;
-
-            points[0].set(points[0].x + offset.x, points[0].y + offset.y)
-
-            // Animate additional points.
-            targetPoint = points[0];
-
-            for (let i = 1; i < points.length; i++) {
-                let currentPoint = points[i];
-
-                let offset = new PIXI.Point(
-                    (targetPoint.x - currentPoint.x),
-                    (targetPoint.y - currentPoint.y)
-                );
-
-                let length = Math.sqrt(offset.x * offset.x + offset.y * offset.y);
-
-                // Normalize
-                offset.x /= length;
-                offset.y /= length;
-
-                // Scale offset.
-                offset.x *= 512 / points.length;
-                offset.y *= 512 / points.length;
-
-                points[i].set(targetPoint.x - offset.x, targetPoint.y - offset.y)
-
-                targetPoint = points[i];
-            }
-        }```
-
         // local click handling.
         document.addEventListener("click", function (event) {
 
             const normalizedX = (event.clientX * 1.0 / window.innerWidth).toPrecision(3);
             const normalizedY = (event.clientY * 1.0 / window.innerHeight).toPrecision(3);
 
-            drawClick(normalizedX, normalizedY);
+            drawClick(normalizedX, normalizedY/*, "LocalTest"*/);
 
         });
 
