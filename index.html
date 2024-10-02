@@ -87,71 +87,47 @@
         function drawClick(clickX, clickY, user) {
             const screenX = parseInt(clickX * main.clientWidth);
             const screenY = parseInt(clickY * main.clientHeight);
-        
-            // Create a container for both richText and food
-            const container = new PIXI.Container();
-            container.x = screenX;
-            container.y = screenY;
-        
-            // user
+
+            //user
             var richText = new PIXI.Text(user, style);
-            richText.x = 0;
-            richText.y = 0;
-        
+            richText.x = screenX;
+            richText.y = screenY;
+
             richText.birth = Date.now();
             richText.death = richText.birth + 2500;
-        
-            container.addChild(richText);
+
+            app.stage.addChild(richText);
             
             // food
             const foodIndex = Math.floor(Math.random() * foods.length);
             const food = PIXI.Sprite.from(foods[foodIndex]);
-        
+
             food.anchor.set(0.5);
-            food.x = 0;
-            food.y = 0;
+            food.x = screenX;
+            food.y = screenY;
             food.rotation = (Math.random() * (Math.PI / 2.0)) - (Math.PI / 4.0);
-        
+
             food.birth = Date.now();
             food.death = food.birth + 1000;
-        
-            container.addChild(food);
-        
-            // Add the container to the stage
-            app.stage.addChild(container);
+
+            sprites.addChild(food);
         }
 
-        
         // Animation loop.
         app.ticker.add(function (delta) {
-            // Update containers.
-            for (let i = app.stage.children.length - 1; i >= 0; i--) {
-                let container = app.stage.getChildAt(i);
-        
-                // Assuming each container has two children: richText and food
-                let richText = container.getChildAt(0);
-                let food = container.getChildAt(1);
-        
-                let ageRichText = (Date.now() - richText.birth) / (richText.death - richText.birth);
-                let ageFood = (Date.now() - food.birth) / (food.death - food.birth);
-        
-                if (ageRichText >= 1) {
-                    richText.destroy();
+            // Update food.
+            for (let i = sprites.children.length - 1; i >= 0; i--) {
+                let food = sprites.getChildAt(i);
+                let userName = app.stage.getChildAt(i);
+                
+                let age = (Date.now() - userName.birth) / (userName.death - userName.birth);
+
+                if (age >= 1) {
+                    userName.destroy();
                 } else {
-                    richText.scale.set((1 - ageRichText));
+                    userName.scale.set((1 - age));
                 }
-        
-                if (ageFood >= 1) {
-                    food.destroy();
-                } else {
-                    food.scale.set((1 - ageFood));
-                }
-        
-                // Remove the container if both children are destroyed
-                if (!container.children.length) {
-                    container.destroy();
-                }
-            }
+            };
         });
         
         // local click handling.
