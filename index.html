@@ -30,7 +30,7 @@
             const heat = new Heat(channel);
             heat.addEventListener('click', async (e) => {
                 let user = await heat.getUserById(e.detail.id);
-                drawClick(e.detail.x, e.detail.y, user.display_name);
+                drawClick(e.detail.x, e.detail.y/*, user.display_name*/);
             });
         }
 
@@ -86,7 +86,7 @@
 
         
         // Draw clicks.
-        function drawClick(clickX, clickY, user) {
+        function drawClick(clickX, clickY/*, userName*/) {
             const screenX = parseInt(clickX * main.clientWidth);
             const screenY = parseInt(clickY * main.clientHeight);
             
@@ -105,7 +105,7 @@
             sprites.addChild(food);
             
             //user
-            var richText = new PIXI.Text(user, style);
+            // var richText = new PIXI.Text(userName, style);
             ```
             // If we add richText as a child to "food", 
             // it will already have the same coordinates as the parent
@@ -123,9 +123,9 @@
             // Update food.
             for (let i = sprites.children.length - 1; i >= 0; i--) {
                 let food = sprites.getChildAt(i);
-                
+                //let userName = food.getChildAt(0);
                 ```
-                let userName = sprites.stage.getChildAt(i);
+                let userName = app.stage.getChildAt(i);
                 
                 let age = (Date.now() - userName.birth) / (userName.death - userName.birth);
 
@@ -143,7 +143,7 @@
             const normalizedX = (event.clientX * 1.0 / window.innerWidth).toPrecision(3);
             const normalizedY = (event.clientY * 1.0 / window.innerHeight).toPrecision(3);
 
-            drawClick(normalizedX, normalizedY, user);
+            drawClick(normalizedX, normalizedY/*, user*/);
 
         });
 
