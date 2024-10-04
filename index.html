@@ -30,7 +30,7 @@
             const heat = new Heat(channel);
             heat.addEventListener('click', async (e) => {
                 let user = await heat.getUserById(e.detail.id);
-                drawClick(e.detail.x, e.detail.y/*, user.display_name*/);
+                drawClick(e.detail.x, e.detail.y, user.display_name);
             });
         }
 
@@ -65,9 +65,9 @@
             uvs: true
         });
         app.stage.addChild(sprites);
-        
 
-        // Create PIXI stage window.
+        
+        // Create click window.
         let width = window.innerWidth;
         let height = window.innerHeight;
         let points = [];
@@ -75,7 +75,6 @@
             let offset = i * (512 / 512)
             points.push(new PIXI.Point((width / 2) + offset, height / 2));
         };
-
         
         // Prepare food.
         var mySpriteSheetImage = PIXI.BaseTexture.from("sprites/clover.png");
@@ -84,9 +83,8 @@
             new PIXI.Texture(mySpriteSheetImage, new PIXI.Rectangle(0, 0, 112, 112))
         ];
 
-        
         // Draw clicks.
-        function drawClick(clickX, clickY/*, userName*/) {
+        function drawClick(clickX, clickY, user) {
             const screenX = parseInt(clickX * main.clientWidth);
             const screenY = parseInt(clickY * main.clientHeight);
             
@@ -105,16 +103,14 @@
             sprites.addChild(food);
             
             //user
-            // var richText = new PIXI.Text(userName, style);
+            var richText = new PIXI.Text(user, style);
             ```
-            // If we add richText as a child to "food", 
-            // it will already have the same coordinates as the parent
             richText.x = screenX;
             richText.y = screenY;
-
-            richText.birth = Date.now();
-            richText.death = richText.birth + 2500;
             ```
+            richText.birth = Date.now();
+            richText.death = richText.birth + 1000;
+
             food.addChild(richText);
         }
 
@@ -123,15 +119,14 @@
             // Update food.
             for (let i = sprites.children.length - 1; i >= 0; i--) {
                 let food = sprites.getChildAt(i);
-                //let userName = food.getChildAt(0);
+                let userName = food.getChildAt(0);
                 ```
-                let userName = app.stage.getChildAt(i);
-                
                 let age = (Date.now() - userName.birth) / (userName.death - userName.birth);
 
                 if (age >= 1) {
-                    food.destroy();
                     userName.destroy();
+                } else {
+                    userName.scale.set((1 - age));
                 }
                 ```
             };
@@ -143,7 +138,7 @@
             const normalizedX = (event.clientX * 1.0 / window.innerWidth).toPrecision(3);
             const normalizedY = (event.clientY * 1.0 / window.innerHeight).toPrecision(3);
 
-            drawClick(normalizedX, normalizedY/*, user*/);
+            drawClick(normalizedX, normalizedY, user);
 
         });
 
