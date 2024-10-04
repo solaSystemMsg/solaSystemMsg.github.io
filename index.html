@@ -106,22 +106,27 @@
             
             //user
             var richText = new PIXI.Text(user, style);
+            ```
+            // If we add richText as a child to "food", 
+            // it will already have the same coordinates as the parent
             richText.x = screenX;
             richText.y = screenY;
 
             richText.birth = Date.now();
             richText.death = richText.birth + 2500;
-
-            sprites.addChild(richText);
+            ```
+            food.addChild(richText);
         }
 
         // Animation loop.
         app.ticker.add(function (delta) {
             // Update food.
-            for (let i = sprites.children.length - 1; i >= 0; i-=2) {
-                let food = sprites.getChildAt(i-1);
-                let userName = sprites.stage.getChildAt(i);
+            for (let i = sprites.children.length - 1; i >= 0; i--) {
+                let food = sprites.getChildAt(i);
+                
                 ```
+                let userName = sprites.stage.getChildAt(i);
+                
                 let age = (Date.now() - userName.birth) / (userName.death - userName.birth);
 
                 if (age >= 1) {
