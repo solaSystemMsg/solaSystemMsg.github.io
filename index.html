@@ -79,7 +79,7 @@
         // Font style.
         var style = new PIXI.TextStyle({
             fontFamily: 'Arial',
-            fontSize: 18,
+            fontSize: 96,
             fill: '#ff0000',
             align: 'center',
         });
@@ -110,8 +110,8 @@
             //user
             var richText = new PIXI.Text(user, style);
             const textBounds = richText.getBounds();
-            richText.x = -textBounds.width / 2;
-            richText.y = -textBounds.height / 2
+            richText.x = textBounds.width / 2;
+            richText.y = textBounds.height / 2
 
             // Debug Information
             console.log('user created', user);
