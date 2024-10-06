@@ -46,6 +46,7 @@
             transparent: true
         });
         main.appendChild(app.view);
+        console.log('main: ', main);
 
 
         // Sprite container.
@@ -74,18 +75,6 @@
             new PIXI.Texture(mySpriteSheetImage, new PIXI.Rectangle(0, 0, 112, 112))
         ];
 
-        // TO BE DELETED
-        const testText = new PIXI.Text('Hello, World!', { 
-            fontFamily: 'Arial',
-            fontSize: 24,
-            fill: '#ffffff', // White color
-            align: 'center'
-        });
-        testText.anchor.set(0.5);
-        testText.x = 0;
-        testText.y = 0;
-        app.stage.addChild(testText);
-        // END OF TO BE DELETED
         
         // Font style.
         var style = new PIXI.TextStyle({
