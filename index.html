@@ -47,7 +47,7 @@
         });
         main.appendChild(app.view);
 
-        
+
         // Sprite container.
         const sprites = new PIXI.ParticleContainer(10000, {
             scale: true,
@@ -56,7 +56,7 @@
             uvs: true
         });
         app.stage.addChild(sprites);
-
+        
         
         // Create Particle container window.
         let width = window.innerWidth;
@@ -74,17 +74,31 @@
             new PIXI.Texture(mySpriteSheetImage, new PIXI.Rectangle(0, 0, 112, 112))
         ];
 
+        // TO BE DELETED
+        const testText = new PIXI.Text('Hello, World!', { 
+            fontFamily: 'Arial',
+            fontSize: 24,
+            fill: '#ffffff', // White color
+            align: 'center'
+        });
+        testText.anchor.set(0.5);
+        testText.x = food.x;
+        testText.y = food.y;
+        app.stage.addChild(testText);
+        // END OF TO BE DELETED
+        
         // Font style.
         var style = new PIXI.TextStyle({
             fontFamily: 'Arial',
-            fontSize: 128,
-            fontWeight: 'bold',
-            fill: ['#0ab89d', '#07856a'],
+            fontSize: 18,
+            fill: '#ff0000',
+            align: 'center',
         });
 
 
         // Draw clicks.
         function drawClick(clickX, clickY, user) {
+            console.log('drawClick called'); // debug
             const screenX = parseInt(clickX * main.clientWidth);
             const screenY = parseInt(clickY * main.clientHeight);
             
@@ -97,25 +111,35 @@
             food.y = screenY;
             food.rotation = (Math.random() * (Math.PI / 2.0)) - (Math.PI / 4.0);
 
+            console.log('Food created at', screenX, screenY); //debug
+
             //food.birth = Date.now();
             //food.death = food.birth + 1000;
 
-            sprites.addChild(food);
+            //sprites.addChild(food);
             
             //user
             var richText = new PIXI.Text(user, style);
-            ```
-            richText.x = screenX;
-            richText.y = screenY;
-            
-            richText.birth = Date.now();
-            richText.death = richText.birth + 1000;
-            ```
+            const textBounds = richText.getBounds();
+            richText.x = -textBounds.width / 2;
+            richText.y = -textBounds.height / 2
+
+            // Debug Information
+            console.log('user created', user);
+            console.log('richText: ', richText);
+            console.log('food: ', food);
+            console.log('richText dimensions:', richText.getBounds());
+
+            //visible
+            food.visible = true; 
+            richText.visible = true; 
+
+            // add child
+            sprites.addChild(food);  
             food.addChild(richText);
         }
-
+        
         // Animation loop.
-        ```
         app.ticker.add(function (delta) {
             // Update food.
             for (let i = sprites.children.length - 1; i >= 0; i--) {
@@ -131,7 +155,6 @@
                 }
             };
         });
-        ```
         
         // local click handling.
         document.addEventListener("click", function (event) {
