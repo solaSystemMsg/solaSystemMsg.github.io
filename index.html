@@ -152,7 +152,7 @@
                         console.log('userList encountered second instance evaluation: ', userList);
                         
                         food.destroy();
-                        userList.splice(userList.indexOf(userName), 1);
+                        userList.splice(userList.lastIndexOf(userName), 1);
                     }
                 }
             };
