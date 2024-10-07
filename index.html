@@ -136,7 +136,7 @@
 
                 // Look for instance of same user clicking twice, remove oldest sprite
                 if (userList.includes(userName)) {
-                    if (userList.indexOf(userName) != userList.lastIndexOf(userName) {
+                    if (userList.indexOf(userName) != userList.lastIndexOf(userName)) {
                         food.destroy();
                         userList.splice(userList.indexOf(userName), 1);
                     }
