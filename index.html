@@ -103,13 +103,10 @@
 
             richText.x = 0;
             richText.y = 0;
-
-            richText.birth = Date.now();
-            richText.death = richText.birth + 2500;
-            app.stage.addChild(richText);
+            
             // add childs
             sprites.addChild(food);  
-
+            food.addChild(richText);
             
             // Debug Information
             console.log('user created', user);
@@ -126,13 +123,10 @@
                 let food = sprites.getChildAt(i);
                 let userName = food.getChildAt(0);
 
-                let age = (Date.now() - userName.birth) / (userName.death - userName.birth);
+                // Debug information
+                console.log('Ticker food: ', food);
+                console.log('Ticker userName: ', userName);
 
-                if (age >= 1) {
-                    userName.destroy();
-                } else {
-                    userName.scale.set((1 - age));
-                }
             };
         });
         
