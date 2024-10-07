@@ -103,20 +103,17 @@
 
             richText.x = 0;
             richText.y = 0;
-
+            
+            // add childs
+            sprites.addChild(food);  
+            app.stage.addChild(richText);
+            
             // Debug Information
             console.log('user created', user);
             console.log('richText: ', richText);
             console.log('food: ', food);
             console.log('richText dimensions:', richText.getBounds());
-
-            //visible
-            food.visible = true; 
-            richText.visible = true; 
-
-            // add childs
-            sprites.addChild(food);  
-            food.addChild(richText);
+            
         }
         
         // Animation loop.
