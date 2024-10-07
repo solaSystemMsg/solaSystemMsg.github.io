@@ -141,12 +141,12 @@
                 if (userList.includes(userName)) {
 
                     // Debug
-                    console.log('userList includes userName evaluation TRUE ');
+                    console.log('userList includes userName evaluation TRUE');
                     
                     if (userList.indexOf(userName) != userList.lastIndexOf(userName)) {
 
                         // Debug
-                        console.log('userList encountered second instance evaluation: ': userList);
+                        console.log('userList encountered second instance evaluation: ', userList);
                         
                         food.destroy();
                         userList.splice(userList.indexOf(userName), 1);
