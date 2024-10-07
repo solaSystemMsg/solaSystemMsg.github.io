@@ -110,7 +110,7 @@
             richText.x = 0;
             richText.y = 0;
 
-            userList.push(user);
+            userList.push(richText);
             
             // add childs
             sprites.addChild(food);  
@@ -133,7 +133,7 @@
                 let food = sprites.getChildAt(i);
                 let userName = food.getChildAt(0);
 
-                if (userList.includes(userName) == true) {
+                if (userList.includes(userName)) {
                     food.destroy();
                     userList.splice(userList.indexOf(userName), 1);
                 }
