@@ -134,9 +134,20 @@
                 let food = sprites.getChildAt(i);
                 let userName = food.getChildAt(0);
 
+                // Debug
+                console.log('userList: ', userList);
+
                 // Look for instance of same user clicking twice, remove oldest sprite
                 if (userList.includes(userName)) {
+
+                    // Debug
+                    console.log('userList includes userName evaluation TRUE ');
+                    
                     if (userList.indexOf(userName) != userList.lastIndexOf(userName)) {
+
+                        // Debug
+                        console.log('userList encountered second instance evaluation: ': userList);
+                        
                         food.destroy();
                         userList.splice(userList.indexOf(userName), 1);
                     }
