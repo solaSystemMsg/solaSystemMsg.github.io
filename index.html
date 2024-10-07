@@ -73,6 +73,7 @@
             fontSize: 96,
             fontWeight: 'bold',
             fill: '#0ab89d',
+            stroke: { color: '#ffffff', width: 5, join: 'round' },
             align: 'center',
         });
         
@@ -102,12 +103,12 @@
             //user
             var richText = new PIXI.Text(user, style);
 
-            richText.x = screenX;
-            richText.y = screenY;
+            richText.x = 0;
+            richText.y = 0;
             
             // add childs
             sprites.addChild(food);  
-            app.stage.addChild(richText);
+            sprites.addChild(richText);
             
             // Debug Information
             console.log('user created', user);
