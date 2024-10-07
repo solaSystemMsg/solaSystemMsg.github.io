@@ -68,13 +68,14 @@
 
         
         // Font style.
+        ```
         var style = new PIXI.TextStyle({
             fontFamily: 'Arial',
             fontSize: 96,
             fill: '#ff0000',
             align: 'center',
         });
-
+        ```
 
         // Draw clicks.
         function drawClick(clickX, clickY, user) {
@@ -99,7 +100,7 @@
             //sprites.addChild(food);
             
             //user
-            var richText = new PIXI.Text(user, style);
+            var richText = new PIXI.Text(user);
 
             richText.x = 0;
             richText.y = 0;
@@ -122,10 +123,6 @@
             for (let i = sprites.children.length - 1; i >= 0; i--) {
                 let food = sprites.getChildAt(i);
                 let userName = food.getChildAt(0);
-
-                // Debug information
-                console.log('Ticker food: ', food);
-                console.log('Ticker userName: ', userName);
 
             };
         });
