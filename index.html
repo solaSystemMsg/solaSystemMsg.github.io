@@ -111,7 +111,7 @@
             richText.y = 0;
 
             // store the users to check for duplicates later
-            userList.push(richText);
+            userList.push(user);
             
             // add childs
             sprites.addChild(food);  
@@ -132,7 +132,8 @@
             for (let i = sprites.children.length - 1; i >= 0; i--) 
             {
                 let food = sprites.getChildAt(i);
-                let userName = food.getChildAt(0);
+                let richText = food.getChildAt(0);
+                let userName = richText._text;
 
                 // Debug
                 console.log('userList: ', userList);
