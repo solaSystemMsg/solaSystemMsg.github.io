@@ -78,7 +78,7 @@
         });
 
 
-        // Storing usernames for referencing 
+        // Storing usernames for referencing later
         const userList = [];
 
         // Draw clicks.
@@ -110,6 +110,7 @@
             richText.x = 0;
             richText.y = 0;
 
+            // store the users to check for duplicates later
             userList.push(richText);
             
             // add childs
@@ -133,9 +134,11 @@
                 let food = sprites.getChildAt(i);
                 let userName = food.getChildAt(0);
 
+                // Look for instance of same user clicking twice, remove oldest sprite
                 if (userList.includes(userName)) {
-                    food.destroy();
-                    userList.splice(userList.indexOf(userName), 1);
+                    if (userList.indexOf(userName) != userList.lastIndexOf(userName) {
+                        food.destroy();
+                        userList.splice(userList.indexOf(userName), 1);
                 }
 
             };
